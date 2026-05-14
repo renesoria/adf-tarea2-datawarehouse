@@ -1,0 +1,10 @@
+{
+	"name": "adf-ucb-dw-vacunacion-13353021",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "chilecentral"
+}
