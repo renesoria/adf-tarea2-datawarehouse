@@ -67,7 +67,8 @@
 			},
 			{
 				"name": "numero_dosis",
-				"type": "varchar"
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "establecimiento_id",
