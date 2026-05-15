@@ -51,6 +51,9 @@
 				},
 				{
 					"name": "union2"
+				},
+				{
+					"name": "derivedColumn4"
 				}
 			],
 			"scriptLines": [
@@ -158,7 +161,6 @@
 				"          establecimiento_id = cod_establecimiento,",
 				"          nombre_establecimiento = desc_establecimiento,",
 				"          lote_vacuna = nro_lote,",
-				"          temp_conservacion,",
 				"          edad_dias,",
 				"          via_administracion = via_aplicacion",
 				"     ),",
@@ -214,7 +216,31 @@
 				"select2 derive(origen_datos = 'RURAL') ~> derivedColumn2",
 				"select1 derive(origen_datos = 'LA PAZ') ~> derivedColumn3",
 				"derivedColumn3, derivedColumn2 union(byName: true)~> union1",
-				"union1, derivedColumn1 union(byName: true)~> union2"
+				"union1, derivedColumn1 union(byName: true)~> union2",
+				"union2 derive(fecha_nacimiento = coalesce(\r",
+				"    toDate(fecha_nacimiento, 'yyyy-MM-dd'),\r",
+				"    toDate(fecha_nacimiento, 'dd/MM/yyyy'),\r",
+				"    toDate(fecha_nacimiento, 'd/M/yyyy'),\r",
+				"    toDate(fecha_nacimiento, 'yyyy/MM/dd')\r",
+				"),",
+				"          fecha_vacunacion = coalesce(\r",
+				"    toTimestamp(fecha_vacunacion, 'dd/MM/yyyy'),\r",
+				"    toTimestamp(fecha_vacunacion, 'd/M/yyyy'),\r",
+				"    toTimestamp(fecha_vacunacion, 'yyyy-MM-dd\\'T\\'HH:mm:ss'),\r",
+				"    toTimestamp(fecha_vacunacion)\r",
+				"),",
+				"          nombres = initCap(trim(nombres)),",
+				"          primer_apellido = initCap(trim(primer_apellido)),",
+				"          segundo_apellido = initCap(trim(segundo_apellido)),",
+				"          sexo = iif(sexo == 'M' || sexo == 'Masculino', 'Masculino', \r",
+				"iif(sexo == 'F' || sexo == 'Femenino', 'Femenino', 'Desconocido')),",
+				"          municipio_residencia = initCap(trim(municipio_residencia)),",
+				"          comunidad_indigena = iif(rlike(trim(upper(comunidad_indigena)), '^(SI|SÍ|TRUE|1)$'), true(), false()),",
+				"          vacuna_nombre = trim(vacuna_nombre),",
+				"          via_administracion = initCap(trim(via_administracion)),",
+				"          ci_paciente = trim(ci_paciente),",
+				"          numero_dosis = toInteger(toDouble(numero_dosis)),",
+				"          edad_dias = toInteger(trim(edad_dias))) ~> derivedColumn4"
 			]
 		}
 	}

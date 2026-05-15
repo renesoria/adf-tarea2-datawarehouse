@@ -49,7 +49,7 @@
 			},
 			{
 				"name": "comunidad_indigena",
-				"type": "varchar"
+				"type": "bit"
 			},
 			{
 				"name": "fecha_vacunacion",
