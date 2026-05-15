@@ -1,0 +1,109 @@
+{
+	"name": "silver_vacunacion_consolidada",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_vacunacion",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "silver"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_registro",
+				"type": "varchar"
+			},
+			{
+				"name": "paciente_id",
+				"type": "varchar"
+			},
+			{
+				"name": "ci_paciente",
+				"type": "varchar"
+			},
+			{
+				"name": "nombres",
+				"type": "varchar"
+			},
+			{
+				"name": "primer_apellido",
+				"type": "varchar"
+			},
+			{
+				"name": "segundo_apellido",
+				"type": "varchar"
+			},
+			{
+				"name": "sexo",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_nacimiento",
+				"type": "date"
+			},
+			{
+				"name": "municipio_residencia",
+				"type": "varchar"
+			},
+			{
+				"name": "comunidad_indigena",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_vacunacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "vacuna_id",
+				"type": "varchar"
+			},
+			{
+				"name": "vacuna_nombre",
+				"type": "varchar"
+			},
+			{
+				"name": "numero_dosis",
+				"type": "varchar"
+			},
+			{
+				"name": "establecimiento_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nombre_establecimiento",
+				"type": "varchar"
+			},
+			{
+				"name": "lote_vacuna",
+				"type": "varchar"
+			},
+			{
+				"name": "edad_dias",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "via_administracion",
+				"type": "varchar"
+			},
+			{
+				"name": "origen_datos",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_carga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "silver",
+			"table": "vacunacion_consolidada"
+		}
+	}
+}

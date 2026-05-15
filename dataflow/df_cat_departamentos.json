@@ -1,0 +1,93 @@
+{
+	"name": "df_cat_departamentos",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "catalogo_departamentos_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "silver_cat_departamentos",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          municipio_id as string,",
+				"          municipio_nombre as string,",
+				"          departamento as string,",
+				"          codigo_departamento as string,",
+				"          zona_geografica as string,",
+				"          es_capital_departamental as string,",
+				"          poblacion_depto_estimada as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(municipio_nombre = initCap(trim(municipio_nombre)),",
+				"          departamento = trim(departamento),",
+				"          zona_geografica = trim(zona_geografica),",
+				"          codigo_departamento = trim(codigo_departamento),",
+				"          es_capital_departamental = iif(lower(es_capital_departamental) == 'true', true(), false()),",
+				"          poblacion_depto_estimada = toInteger(poblacion_depto_estimada)) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          municipio_id,",
+				"          municipio_nombre,",
+				"          departamento,",
+				"          codigo_departamento,",
+				"          zona_geografica,",
+				"          es_capital_departamental,",
+				"          poblacion_depto_estimada",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          municipio_id as string,",
+				"          municipio_nombre as string,",
+				"          departamento as string,",
+				"          codigo_departamento as string,",
+				"          zona_geografica as string,",
+				"          es_capital_departamental as boolean,",
+				"          poblacion_depto_estimada as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          municipio_id,",
+				"          municipio_nombre,",
+				"          departamento,",
+				"          codigo_departamento,",
+				"          zona_geografica,",
+				"          es_capital_departamental,",
+				"          poblacion_depto_estimada",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
