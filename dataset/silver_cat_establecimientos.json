@@ -25,7 +25,8 @@
 			},
 			{
 				"name": "nivel_atencion",
-				"type": "varchar"
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "zona",
@@ -49,19 +50,21 @@
 			},
 			{
 				"name": "latitud",
-				"type": "varchar"
+				"type": "float",
+				"precision": 15
 			},
 			{
 				"name": "longitud",
-				"type": "varchar"
+				"type": "float",
+				"precision": 15
 			},
 			{
 				"name": "tiene_cadena_frio",
-				"type": "varchar"
+				"type": "bit"
 			},
 			{
 				"name": "activo",
-				"type": "varchar"
+				"type": "bit"
 			}
 		],
 		"typeProperties": {

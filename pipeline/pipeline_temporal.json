@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_cat_departamentos",
+						"referenceName": "df_cat_establecimientos",
 						"type": "DataFlowReference"
 					},
 					"compute": {
