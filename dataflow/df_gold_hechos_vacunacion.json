@@ -1,0 +1,75 @@
+{
+	"name": "df_gold_hechos_vacunacion",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_vacunacion_consolidada",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "gold_hechos_vacunacion",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          fecha_key as integer,",
+				"          establecimiento_key as integer,",
+				"          vacuna_key as integer,",
+				"          paciente_key as integer,",
+				"          numero_dosis as integer,",
+				"          edad_dias as integer,",
+				"          id_registro as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT \\n    CAST(CONVERT(VARCHAR(8), CAST(v.fecha_vacunacion AS DATE), 112) AS INT) AS fecha_key,\\n    e.establecimiento_key,\\n    vac.vacuna_key,\\n    p.paciente_key,\\n    v.numero_dosis,\\n    v.edad_dias,\\n    v.id_registro\\nFROM silver.vacunacion_consolidada v\\nINNER JOIN gold.dim_establecimiento e ON v.establecimiento_id = e.establecimiento_id\\nINNER JOIN gold.dim_vacuna vac ON v.vacuna_id = vac.vacuna_id\\nINNER JOIN gold.dim_paciente p ON v.paciente_id = p.paciente_id',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          vacunacion_key as integer,",
+				"          fecha_key as integer,",
+				"          establecimiento_key as integer,",
+				"          vacuna_key as integer,",
+				"          paciente_key as integer,",
+				"          numero_dosis as integer,",
+				"          edad_dias as integer,",
+				"          id_registro as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          fecha_key,",
+				"          establecimiento_key,",
+				"          vacuna_key,",
+				"          paciente_key,",
+				"          numero_dosis,",
+				"          edad_dias,",
+				"          id_registro",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
