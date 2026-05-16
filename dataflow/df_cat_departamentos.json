@@ -1,6 +1,9 @@
 {
 	"name": "df_cat_departamentos",
 	"properties": {
+		"folder": {
+			"name": "bronze"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

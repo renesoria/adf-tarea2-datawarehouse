@@ -1,0 +1,72 @@
+{
+	"name": "gold_dim_establecimiento",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_vacunacion",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "establecimiento_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "establecimiento_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nombre_establecimiento",
+				"type": "varchar"
+			},
+			{
+				"name": "tipo_establecimiento",
+				"type": "varchar"
+			},
+			{
+				"name": "nivel_atencion",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "zona",
+				"type": "varchar"
+			},
+			{
+				"name": "sedes",
+				"type": "varchar"
+			},
+			{
+				"name": "red_salud",
+				"type": "varchar"
+			},
+			{
+				"name": "departamento",
+				"type": "varchar"
+			},
+			{
+				"name": "municipio",
+				"type": "varchar"
+			},
+			{
+				"name": "latitud",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "longitud",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "dim_establecimiento"
+		}
+	}
+}

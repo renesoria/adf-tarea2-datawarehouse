@@ -1,6 +1,9 @@
 {
 	"name": "df_cat_vacunas",
 	"properties": {
+		"folder": {
+			"name": "bronze"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

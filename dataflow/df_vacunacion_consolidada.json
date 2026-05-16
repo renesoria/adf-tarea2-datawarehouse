@@ -1,6 +1,9 @@
 {
 	"name": "df_vacunacion_consolidada",
 	"properties": {
+		"folder": {
+			"name": "bronze"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
