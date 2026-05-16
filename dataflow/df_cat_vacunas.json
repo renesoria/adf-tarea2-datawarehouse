@@ -1,0 +1,102 @@
+{
+	"name": "df_cat_vacunas",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "catalogo_vacunas_pai_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "silver_cat_vacunas",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          vacuna_id as string,",
+				"          vacuna_nombre as string,",
+				"          enfermedad_previene as string,",
+				"          grupo_pai as string,",
+				"          numero_dosis as string,",
+				"          dosis_descripcion as string,",
+				"          edad_aplicacion_descripcion as string,",
+				"          edad_minima_dias as string,",
+				"          edad_maxima_dias as string,",
+				"          intervalo_minimo_dias as string,",
+				"          via_administracion as string,",
+				"          sitio_aplicacion as string,",
+				"          dosis_ml as string,",
+				"          condicion_especial as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(numero_dosis = toInteger(trim(numero_dosis)),",
+				"          edad_minima_dias = toInteger(trim(edad_minima_dias)),",
+				"          edad_maxima_dias = toInteger(trim(edad_maxima_dias)),",
+				"          intervalo_minimo_dias = iif(isNull(intervalo_minimo_dias) || toString(intervalo_minimo_dias) == 'NULL', 0, toInteger(toDouble(intervalo_minimo_dias))),",
+				"          dosis_ml = toDouble(trim(dosis_ml)),",
+				"          enfermedad_previene = trim(enfermedad_previene),",
+				"          vacuna_nombre = trim(vacuna_nombre),",
+				"          condicion_especial = iif(condicion_especial == 'NULL', toString(null()), trim(condicion_especial))) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          vacuna_id as string,",
+				"          vacuna_nombre as string,",
+				"          enfermedad_previene as string,",
+				"          grupo_pai as string,",
+				"          numero_dosis as integer,",
+				"          dosis_descripcion as string,",
+				"          edad_aplicacion_descripcion as string,",
+				"          edad_minima_dias as integer,",
+				"          edad_maxima_dias as integer,",
+				"          intervalo_minimo_dias as integer,",
+				"          via_administracion as string,",
+				"          sitio_aplicacion as string,",
+				"          dosis_ml as double,",
+				"          condicion_especial as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          vacuna_id,",
+				"          vacuna_nombre,",
+				"          enfermedad_previene,",
+				"          grupo_pai,",
+				"          numero_dosis,",
+				"          dosis_descripcion,",
+				"          edad_aplicacion_descripcion,",
+				"          edad_minima_dias,",
+				"          edad_maxima_dias,",
+				"          intervalo_minimo_dias,",
+				"          via_administracion,",
+				"          sitio_aplicacion,",
+				"          dosis_ml,",
+				"          condicion_especial",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

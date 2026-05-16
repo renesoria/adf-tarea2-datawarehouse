@@ -65,7 +65,8 @@
 			},
 			{
 				"name": "dosis_ml",
-				"type": "varchar"
+				"type": "float",
+				"precision": 15
 			},
 			{
 				"name": "condicion_especial",
